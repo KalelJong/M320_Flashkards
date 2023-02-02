@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ *
+ */
 public class Main {
 
     /**
@@ -53,9 +56,10 @@ public class Main {
                                    *=====================================*
                                    [1] Add cards to existent set
                                    [2] Delete cards from existent set
-                                   [2] Write learn set
-                                   [3] Flip Card learn set
-                                   [4] Delete set
+                                   [3] Show all cards
+                                   [4] Write learn set
+                                   [5] Flip Card learn set
+                                   [6] Delete set
                                    [B] Go back""");
                            switch (scan.nextLine().toLowerCase()) {
                                case "1":
@@ -65,12 +69,15 @@ public class Main {
                                    flashcardSet.removeFlashcard();
                                    break;
                                case "3":
-                                   flashcardSet.writeLearn(false);
+                                   flashcardSet.showAllFlashcards();
                                    break;
                                case "4":
-                                   flashcardSet.flipCardLearn(false);
+                                   flashcardSet.writeLearn(false);
                                    break;
                                case "5":
+                                   flashcardSet.flipCardLearn(false);
+                                   break;
+                               case "6":
                                    flashcardSetList.remove(flashcardSet);
                                    break;
                                case "b":
@@ -97,6 +104,11 @@ public class Main {
         }while (true);
     }
 
+    /**
+     * Prompts for user input and validates id of flashcard set
+     * @param flashcardSets List of flashcard sets to whom the wished flashcard set belongs
+     * @return Returns a Flashcard Set
+     */
     public static FlashcardSet getSet(List<FlashcardSet> flashcardSets ){
         Scanner scan = new Scanner(System.in);
         System.out.println("Type in set Id:");
@@ -110,15 +122,4 @@ public class Main {
             throw e;
         }
     }
-
-  /*  public Boolean isInputValid(List<FlashcardSet> flashcardSets )
-    {
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Type in set Id:");
-        int setId = Integer.parseInt(scan.nextLine());
-        if (setId > flashcardSets.size() - 1 || setId < 0)
-            return false;
-        else
-            return true;
-    }*/
 }

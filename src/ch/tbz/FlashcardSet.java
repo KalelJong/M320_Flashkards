@@ -22,7 +22,12 @@ public class FlashcardSet extends ArrayList<Flashcard> {
         this.flashcardSetName = flashcardSetName;
     }
 
-    private void printCard(Flashcard flashcard, boolean showOriginTerm) {
+    /**
+     * Prints a single flashcard
+     * @param flashcard Flashcard to be printed
+     * @param showOriginTerm Decides if the origin or the translation term should be shown
+     */
+    public void printCard(Flashcard flashcard, boolean showOriginTerm) {
         System.out.println("+---+---+---+---+---+");
         System.out.println((showOriginTerm? "(Origin) " + flashcard.getOrigin() : "(Translation) " + flashcard.getTranslation()) + " [" + (indexOf(flashcard) + 1) + "/" + size() + "]");
         System.out.println("+---+---+---+---+---+");
@@ -93,6 +98,10 @@ public class FlashcardSet extends ArrayList<Flashcard> {
         scan.nextLine();
     }
 
+    /**
+     * Prompts and gets user input to add card.
+     * Loops until user is satisfied
+     */
     public void addFlashCard()
     {
         boolean isDone = false;
@@ -118,7 +127,11 @@ public class FlashcardSet extends ArrayList<Flashcard> {
         }
     }
 
-    public void removeFlashcard(){
+    /**
+     *  Removes a wished flashcard from the flashcard set
+     * @throws NumberFormatException If the scanner isn't able to parse the input to an int
+     */
+    public void removeFlashcard() throws NumberFormatException{
         Scanner scan = new Scanner(System.in);
         showAllFlashcards();
         System.out.println("Type in Flashcard Id:");
@@ -134,10 +147,13 @@ public class FlashcardSet extends ArrayList<Flashcard> {
         }
     }
 
+    /*
+    Displays all flashcards in a set in the console
+     */
     public void showAllFlashcards()
     {
         for (Flashcard flashcard : this) {
-            System.out.println(indexOf("["+indexOf(flashcard))+"] " + flashcard.getOrigin() + "   |   " + flashcard.getTranslation());
+            System.out.println("["+indexOf(flashcard)+"] " + flashcard.getOrigin() + "   |   " + flashcard.getTranslation());
         }
     }
 
