@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
+/**
+ * A Flashcard set that contains multiple Flashcards and
+ * which has learning functions
+ */
 public class FlashcardSet extends ArrayList<Flashcard> {
 
     private String flashcardSetName;
@@ -16,6 +20,10 @@ public class FlashcardSet extends ArrayList<Flashcard> {
         this.flashcardSetName = flashcardSetName;
     }
 
+    /**
+     * Prints out a card to the console, which can be flipped to reveal the translation
+     * @param isShuffled if true the flashcard set is shuffled
+     */
     public void writeLearn(boolean isShuffled){
         Scanner scan = new Scanner(System.in);
         int rightAnswers = 0;
@@ -38,7 +46,11 @@ public class FlashcardSet extends ArrayList<Flashcard> {
         System.out.println("That's " + (rightAnswers*100)/this.size() + "%!" );
     }
 
-    public void flipCardLearn(boolean isShuffled) throws IOException {
+    /**
+     * Prints out a card to the console, which can be flipped to reveal the translation
+     * @param isShuffled if true the flashcard set is shuffled
+     */
+    public void flipCardLearn(boolean isShuffled)  {
         Scanner scan = new Scanner(System.in);
         for (int i = 0; i < this.size(); i++) {
 

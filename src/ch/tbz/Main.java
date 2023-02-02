@@ -5,6 +5,10 @@ import java.util.*;
 
 public class Main {
 
+    /**
+     *  Displays the UI for creation, updating and deleting of flashcard sets
+     * @param args String array of arguments
+     */
     public static void main(String[] args) {
         List<FlashcardSet> flashcardSets = new ArrayList<>();
         boolean isRunning = true;
@@ -68,11 +72,7 @@ public class Main {
                     int setId = Integer.parseInt(scan.nextLine());
                     if (setId > flashcardSets.size() - 1 || setId < 0) break;
                     FlashcardSet flipLearnSet = flashcardSets.get(setId);
-                    try {
-                        flipLearnSet.flipCardLearn(false);
-                    }catch (IOException e){
-                        System.out.println(e.getMessage());
-                    }
+                    flipLearnSet.flipCardLearn(false);
                     break;
                 case "5":
                     System.out.println("Type in set Id:");

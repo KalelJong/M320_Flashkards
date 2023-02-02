@@ -1,5 +1,8 @@
 package ch.tbz;
 
+/**
+ * A single flashcard, that cointains an origin and translated term
+ */
 public class Flashcard {
     private String origin;
     private String translation;
