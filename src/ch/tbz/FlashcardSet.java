@@ -1,5 +1,7 @@
 package ch.tbz;
 
+import com.sun.tools.jconsole.JConsoleContext;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,17 +22,27 @@ public class FlashcardSet extends ArrayList<Flashcard> {
         this.flashcardSetName = flashcardSetName;
     }
 
+    private void printCard(Flashcard flashcard, boolean showOriginTerm) {
+        System.out.println("+---+---+---+---+---+");
+        System.out.println((showOriginTerm? "(Origin) " + flashcard.getOrigin() : "(Translation) " + flashcard.getTranslation()) + " [" + (indexOf(flashcard) + 1) + "/" + size() + "]");
+        System.out.println("+---+---+---+---+---+");
+
+    }
+
     /**
      * Prints out a card to the console, which can be flipped to reveal the translation
      * @param isShuffled if true the flashcard set is shuffled
      */
     public void writeLearn(boolean isShuffled){
+        if (isShuffled){
+            Collections.shuffle(this);
+        }
         Scanner scan = new Scanner(System.in);
         int rightAnswers = 0;
         for (int i = 0; i < this.size(); i++) {
 
-            Flashcard flashcard = this.get(isShuffled? new Random().nextInt(this.size()) + 1 : i ) ;
-            System.out.println(flashcard.getOrigin() + " [" + i + "/" + this.size() + " ]");
+            Flashcard flashcard = get(i);
+            printCard(flashcard, true);
             System.out.println("Type in translation:");
             String guess = scan.nextLine();
             if (guess.equals(flashcard.getTranslation())) {
@@ -44,6 +56,8 @@ public class FlashcardSet extends ArrayList<Flashcard> {
         }
         System.out.println("Completed set! You got " + rightAnswers + " right answers out of " + this.size());
         System.out.println("That's " + (rightAnswers*100)/this.size() + "%!" );
+        System.out.println("(Press enter to continue)");
+        scan.nextLine();
     }
 
     /**
@@ -52,18 +66,19 @@ public class FlashcardSet extends ArrayList<Flashcard> {
      */
     public void flipCardLearn(boolean isShuffled)  {
         Scanner scan = new Scanner(System.in);
+        if (isShuffled){
+            Collections.shuffle(this);
+        }
         for (int i = 0; i < this.size(); i++) {
 
-                Flashcard flashcard = this.get(isShuffled ? new Random().nextInt(this.size()) + 1 : i);
+                Flashcard flashcard = this.get(i);
                 boolean isOriginTermSide = true;
                 boolean nextCard = false;
                 while (!nextCard) {
                     for (int j = 0; j < 10; j++) {
                         System.out.println();
                     }
-                    System.out.println("+---+---+---+---+---+");
-                    System.out.println((isOriginTermSide ? flashcard.getOrigin() : flashcard.getTranslation())+ " [" + i + "/" + this.size() + "]");
-                    System.out.println("+---+---+---+---+---+");
+                    printCard(flashcard,isOriginTermSide);
                     System.out.println("Press enter to flip card or type 1 to go to the next");
                     String userInput = scan.nextLine();
                     if (userInput.equals("")) {
@@ -75,8 +90,56 @@ public class FlashcardSet extends ArrayList<Flashcard> {
                 }
         }
         System.out.println("Set was completed!");
+        scan.nextLine();
     }
 
+    public void addFlashCard()
+    {
+        boolean isDone = false;
+        Scanner scan = new Scanner(System.in);
+        while (!isDone){
+            System.out.println("Type in the origin term");
+            String origin = scan.nextLine();
+            System.out.println("Type in the translated term");
+            String translation = scan.nextLine();
+            add(new Flashcard(origin,translation));
+            while(true)
+            {
+                System.out.println("Added Flashcard!! [1] Add more [2] Back");
+                String input = scan.nextLine();
+                if (input.equals("2")){
+                    isDone = true;
+                    break;
+                } else if (input.equals("1")){
+                    break;
+                }
+            }
+
+        }
+    }
+
+    public void removeFlashcard(){
+        Scanner scan = new Scanner(System.in);
+        showAllFlashcards();
+        System.out.println("Type in Flashcard Id:");
+        try {
+            int idFlashcard = Integer.parseInt(scan.nextLine());
+            if (idFlashcard > this.size() - 1 || idFlashcard < 0)
+                throw new IndexOutOfBoundsException("ID does not exist");
+            remove(idFlashcard);
+            System.out.println("Successfully removed");
+        }
+        catch (NumberFormatException e){
+            throw e;
+        }
+    }
+
+    public void showAllFlashcards()
+    {
+        for (Flashcard flashcard : this) {
+            System.out.println(indexOf("["+indexOf(flashcard))+"] " + flashcard.getOrigin() + "   |   " + flashcard.getTranslation());
+        }
+    }
 
     public String getFlashcardSetName() {
         return flashcardSetName;
